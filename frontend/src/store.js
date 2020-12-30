@@ -1,8 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { customerListReducer } from "./reducers/customerReducers";
 
-const reducer = combineReducers({});
+// holds all the reducers of the application
+const reducer = combineReducers({
+  customerList: customerListReducer,
+});
 
 // loads initially when the redux store loads
 const initialState = {};
