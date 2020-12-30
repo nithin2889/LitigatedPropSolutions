@@ -1,0 +1,28 @@
+{
+  "name": "litigatedpropsolutions",
+  "version": "1.0.0",
+  "description": "MERN litigated properties app",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:destroy": "node backend/seeder -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nithin2889/LitigatedPropSolutions.git"
+  },
+  "author": "Nithin Prasad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nithin2889/LitigatedPropSolutions/issues"
+  },
+  "homepage": "https://github.com/nithin2889/LitigatedPropSolutions#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
