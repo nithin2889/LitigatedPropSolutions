@@ -1,6 +1,5 @@
 const customers = [
   {
-    _id: "1",
     name: "Hanuman Singh Kant",
     dob: "1967-09-23",
     email: "hanumnt@gmail.com",
@@ -17,7 +16,6 @@ const customers = [
     pan: "ABCDS8271Y",
   },
   {
-    _id: "2",
     name: "Sukriti Saxena",
     dob: "1987-03-18",
     email: "sukri.sena@gmail.com",
@@ -33,7 +31,6 @@ const customers = [
     pan: "QBABR2345Y",
   },
   {
-    _id: "3",
     name: "Ghanshyam Sanghvi",
     dob: "1980-11-12",
     email: "ghansvi@gmail.com",
@@ -49,7 +46,6 @@ const customers = [
     pan: "ATRPS0164Y",
   },
   {
-    _id: "4",
     name: "Umesh Prasad Saran",
     dob: "1985-01-28",
     email: "umesh.saran@gmail.com",
@@ -65,7 +61,6 @@ const customers = [
     pan: "JTACX8764Z",
   },
   {
-    _id: "5",
     name: "Bhagyashree Ram",
     dob: "1989-02-07",
     email: "bhagya.ram22@gmail.com",
@@ -82,7 +77,6 @@ const customers = [
     pan: "THAYX6253D",
   },
   {
-    _id: "6",
     name: "Gopal Ram",
     dob: "1965-06-28",
     email: "gram@gmail.com",
@@ -98,7 +92,6 @@ const customers = [
     pan: "UTRGN7823Q",
   },
   {
-    _id: "7",
     name: "Ramakrishna Achar",
     dob: "1978-12-31",
     email: "ramachar@yahoo.com",
