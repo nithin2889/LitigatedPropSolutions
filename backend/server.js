@@ -1,5 +1,9 @@
 import express from "express";
+import dotenv from "dotenv";
 import customers from "./data/customers.js";
+
+// configuring to read environment variables from .env file
+dotenv.config();
 
 // initializing express
 const app = express();
@@ -21,7 +25,6 @@ app.get("/api/customers/:id", (req, res) => {
 });
 
 // express server listening on port 5000
-app.listen(
-  5000,
-  console.log("Server running in development mode on port 5000")
-);
+const port = process.env.PORT || 5000;
+const mode = process.env.NODE_ENV;
+app.listen(port, console.log(`Server running in ${mode} mode on port ${port}`));

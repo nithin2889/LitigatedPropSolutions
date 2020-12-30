@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import Customer from "../components/Customer";
-import customers from "../customers";
 
 const HomeScreen = () => {
+  const [customers, setCustomers] = useState([]);
+
+  // useEffect runs as soon as the component loads
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      const { data } = await axios.get("/api/customers");
+      setCustomers(data);
+    };
+    fetchCustomers();
+  }, []);
+
   return (
     <>
       <h1>Our Customers</h1>

@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import customers from "../customers";
 
 const CustomerScreen = ({ match }) => {
-  let customer = customers?.find((c) => c._id === match.params.id);
-  console.log(
-    "customer: ",
-    customers.find((c) => c._id === match.params.id)
-  );
+  const [customer, setCustomer] = useState({});
+
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      const { data } = await axios.get(`/api/customers/${match.params.id}`);
+      setCustomer(data);
+    };
+    fetchCustomer();
+  }, [match]);
 
   return (
     <>
