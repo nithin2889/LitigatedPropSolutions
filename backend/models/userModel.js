@@ -37,7 +37,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 userSchema.pre("save", async function (next) {
   // checking if something is not modified (mongoose) or added or sent
   if (!this.isModified("password")) {
-    // if modified we move on.
+    // if not modified we move on.
     next();
   }
   const salt = await bcrypt.genSalt(10);

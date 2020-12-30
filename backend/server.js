@@ -15,7 +15,7 @@ connectDB();
 // initializing express
 const app = express();
 
-// allows us to access JSON data in the body.
+// a middleware that allows us to access/parse JSON data in the request body.
 app.use(express.json());
 
 app.get("/", (req, res) => {
