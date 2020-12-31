@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import CustomerScreen from "./screens/CustomerScreen";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/" component={HomeScreen} exact />
           <Route path="/login" component={LoginScreen} />
           <Route path="/customer/:id" component={CustomerScreen} />
+          <Route path="/register" component={RegisterScreen} />
         </Container>
       </main>
       <Footer />

@@ -76,7 +76,7 @@ export const register = (name, email, password) => async (dispatch) => {
     );
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    // We want to log the user in when he registers
+    // We want to log the user in as soon as he/she registers
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
     // setting the local storage again since it is the same as logging in
