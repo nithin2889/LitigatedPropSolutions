@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
+import morgan from "morgan";
 import connectDB from "./config/db.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -14,6 +15,11 @@ connectDB();
 
 // initializing express
 const app = express();
+
+// middleware to intercept the requests in console
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // a middleware that allows us to access/parse JSON data in the request body.
 app.use(express.json());

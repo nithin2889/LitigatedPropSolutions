@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createCustomer,
+  createCustomerProperty,
   deleteCustomer,
   getCustomerById,
   getCustomers,
@@ -11,6 +12,7 @@ import { admin, protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route("/").get(getCustomers).post(protect, admin, createCustomer);
+router.route("/:id/properties").post(protect, admin, createCustomerProperty);
 router
   .route("/:id")
   .get(getCustomerById)
