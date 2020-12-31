@@ -38,10 +38,10 @@ const CustomerScreen = ({ match }) => {
                 <ListGroup.Item>Email: {customer?.email}</ListGroup.Item>
                 <ListGroup.Item>Mobile: {customer?.mobile}</ListGroup.Item>
                 <ListGroup.Item>
-                  Address: {customer?.customerAddress?.address}
+                  Address: {customer?.customerAddress?.address},{" "}
                   {customer?.customerAddress?.city},{" "}
                   {customer?.customerAddress?.state} -{" "}
-                  {customer?.customerAddress?.postalCode},{" "}
+                  {customer?.customerAddress?.postalCode}{" "}
                   {customer?.customerAddress?.country}
                 </ListGroup.Item>
                 <ListGroup.Item>
