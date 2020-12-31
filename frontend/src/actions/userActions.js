@@ -92,6 +92,8 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
+// If we want to get the profile, pass profile as the id or
+// it will be the user id to get an user since both are similar
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
