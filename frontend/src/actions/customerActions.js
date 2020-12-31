@@ -1,6 +1,9 @@
 import axios from "axios";
 import {
   CUSTOMER_CREATE_FAIL,
+  CUSTOMER_CREATE_PROPERTY_FAIL,
+  CUSTOMER_CREATE_PROPERTY_REQUEST,
+  CUSTOMER_CREATE_PROPERTY_SUCCESS,
   CUSTOMER_CREATE_REQUEST,
   CUSTOMER_CREATE_SUCCESS,
   CUSTOMER_DELETE_FAIL,
@@ -16,6 +19,7 @@ import {
   CUSTOMER_UPDATE_REQUEST,
   CUSTOMER_UPDATE_SUCCESS,
 } from "../constants/customerConstants";
+import { logout } from "./userActions";
 
 // Redux Thunk allows us to basically add a function within a function
 // to dispatch the actions to our reducers.
@@ -147,6 +151,51 @@ export const updateCustomer = (customer) => async (dispatch, getState) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const createProperty = (customerId, property) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: CUSTOMER_CREATE_PROPERTY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `/api/customers/${customerId}/properties`,
+      property,
+      config
+    );
+
+    dispatch({
+      type: CUSTOMER_CREATE_PROPERTY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: CUSTOMER_CREATE_PROPERTY_FAIL,
+      payload: message,
     });
   }
 };

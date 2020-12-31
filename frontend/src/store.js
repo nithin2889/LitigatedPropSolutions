@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
+  customerCreatePropertyReducer,
   customerCreateReducer,
   customerDeleteReducer,
   customerDetailsReducer,
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   customerDelete: customerDeleteReducer,
   customerCreate: customerCreateReducer,
   customerUpdate: customerUpdateReducer,
+  customerCreateProperty: customerCreatePropertyReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
