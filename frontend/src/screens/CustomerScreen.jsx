@@ -30,7 +30,7 @@ const CustomerScreen = ({ match }) => {
       ) : (
         <>
           <Row>
-            <Col md={5}>
+            <Col md={4}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>{customer?.name}</h3>
@@ -38,13 +38,20 @@ const CustomerScreen = ({ match }) => {
                 <ListGroup.Item>Email: {customer?.email}</ListGroup.Item>
                 <ListGroup.Item>Mobile: {customer?.mobile}</ListGroup.Item>
                 <ListGroup.Item>
+                  Address: {customer?.customerAddress?.address}
+                  {customer?.customerAddress?.city},{" "}
+                  {customer?.customerAddress?.state} -{" "}
+                  {customer?.customerAddress?.postalCode},{" "}
+                  {customer?.customerAddress?.country}
+                </ListGroup.Item>
+                <ListGroup.Item>
                   Date Of Birth: {moment(customer?.dob).format("YYYY-MM-DD")}
                 </ListGroup.Item>
                 <ListGroup.Item>PAN: {customer?.pan}</ListGroup.Item>
                 <ListGroup.Item>Adhaar: {customer?.adhaar}</ListGroup.Item>
               </ListGroup>
             </Col>
-            <Col md={7}>
+            <Col md={8}>
               <Card>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
