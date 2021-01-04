@@ -21,6 +21,10 @@ import {
   CUSTOMER_CREATE_PROPERTY_FAIL,
   CUSTOMER_CREATE_PROPERTY_SUCCESS,
   CUSTOMER_CREATE_PROPERTY_REQUEST,
+  CUSTOMER_UPDATE_PROPERTY_REQUEST,
+  CUSTOMER_UPDATE_PROPERTY_SUCCESS,
+  CUSTOMER_UPDATE_PROPERTY_FAIL,
+  CUSTOMER_UPDATE_PROPERTY_RESET,
 } from "../constants/customerConstants";
 
 export const customerListReducer = (state = { customers: [] }, action) => {
@@ -107,6 +111,26 @@ export const customerCreatePropertyReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case CUSTOMER_CREATE_PROPERTY_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const customerUpdatePropertyReducer = (
+  state = { customer: { properties: [] } },
+  action
+) => {
+  switch (action.type) {
+    case CUSTOMER_UPDATE_PROPERTY_REQUEST:
+      return { loading: true };
+    case CUSTOMER_UPDATE_PROPERTY_SUCCESS:
+      return { loading: false, success: true, customer: action.payload };
+    case CUSTOMER_UPDATE_PROPERTY_FAIL:
+      return { loading: false, error: action.payload };
+    case CUSTOMER_UPDATE_PROPERTY_RESET:
+      return {
+        customer: {},
+      };
     default:
       return state;
   }

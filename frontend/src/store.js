@@ -7,6 +7,7 @@ import {
   customerDeleteReducer,
   customerDetailsReducer,
   customerListReducer,
+  customerUpdatePropertyReducer,
   customerUpdateReducer,
 } from "./reducers/customerReducers";
 import {
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   customerCreate: customerCreateReducer,
   customerUpdate: customerUpdateReducer,
   customerCreateProperty: customerCreatePropertyReducer,
+  customerUpdateProperty: customerUpdatePropertyReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,

@@ -122,6 +122,35 @@ const createCustomerProperty = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update property
+// @route   PUT /api/customers/:id/properties
+// @access  Private/Admin
+const updateCustomerProperty = asyncHandler(async (req, res) => {
+  const { location, description, propertyValue, image } = req.body;
+
+  const customer = await Customer.findById(req.params.id);
+  if (customer) {
+    if (location) {
+      customer.properties[0].location.address = location?.address;
+      customer.properties[0].location.city = location?.city;
+      customer.properties[0].location.state = location?.state;
+      customer.properties[0].location.postalCode = location?.postalCode;
+      customer.properties[0].location.country = location?.country;
+    }
+    customer.properties[0].description = description;
+    customer.properties[0].propertyValue = propertyValue;
+    customer.properties[0].image = image;
+    customer.properties[0].user = req.user._id;
+    customer.properties[0].customer = req.params.id;
+
+    const updatedProperty = await customer.save();
+    res.json(updatedProperty);
+  } else {
+    res.status(404);
+    throw new Error("Property not found");
+  }
+});
+
 export {
   getCustomers,
   getCustomerById,
@@ -129,4 +158,5 @@ export {
   createCustomer,
   updateCustomer,
   createCustomerProperty,
+  updateCustomerProperty,
 };

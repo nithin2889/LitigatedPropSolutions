@@ -16,6 +16,9 @@ import {
   CUSTOMER_LIST_REQUEST,
   CUSTOMER_LIST_SUCCESS,
   CUSTOMER_UPDATE_FAIL,
+  CUSTOMER_UPDATE_PROPERTY_FAIL,
+  CUSTOMER_UPDATE_PROPERTY_REQUEST,
+  CUSTOMER_UPDATE_PROPERTY_SUCCESS,
   CUSTOMER_UPDATE_REQUEST,
   CUSTOMER_UPDATE_SUCCESS,
 } from "../constants/customerConstants";
@@ -195,6 +198,49 @@ export const createProperty = (customerId, property) => async (
     }
     dispatch({
       type: CUSTOMER_CREATE_PROPERTY_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const updateProperty = (customerId, property) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: CUSTOMER_UPDATE_PROPERTY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/customers/${customerId}/properties`,
+      property,
+      config
+    );
+
+    dispatch({ type: CUSTOMER_UPDATE_PROPERTY_SUCCESS });
+    dispatch({ type: CUSTOMER_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: CUSTOMER_UPDATE_PROPERTY_FAIL,
       payload: message,
     });
   }

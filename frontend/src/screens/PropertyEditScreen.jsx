@@ -5,10 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { listCustomerDetails } from "../actions/customerActions";
+import {
+  listCustomerDetails,
+  updateProperty,
+} from "../actions/customerActions";
+import { CUSTOMER_UPDATE_PROPERTY_RESET } from "../constants/customerConstants";
 
-const PropertyEditScreen = ({ match }) => {
+const PropertyEditScreen = ({ history, match }) => {
   const dispatch = useDispatch();
+
   const customerId = match.params.custId;
 
   const [address, setAddress] = useState("");
@@ -20,26 +25,59 @@ const PropertyEditScreen = ({ match }) => {
   const [propertyValue, setPropertyValue] = useState(0);
   const [image, setImage] = useState("");
 
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user } = userDetails;
+
   const customerDetails = useSelector((state) => state.customerDetails);
   const { loading, error, customer } = customerDetails;
 
+  const customerUpdateProperty = useSelector(
+    (state) => state.customerUpdateProperty
+  );
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = customerUpdateProperty;
+
   useEffect(() => {
-    if (!customer.name || customer._id !== customerId) {
-      dispatch(listCustomerDetails(customerId));
+    if (successUpdate) {
+      dispatch({ type: CUSTOMER_UPDATE_PROPERTY_RESET });
+      history.push(`/customer/${customerId}`);
     } else {
-      setAddress(customer?.properties[0]?.location.address);
-      setCity(customer?.properties[0]?.location.city);
-      setState(customer?.properties[0]?.location.state);
-      setPostalCode(customer?.properties[0]?.location.postalCode);
-      setCountry(customer?.properties[0]?.location.country);
-      setDescription(customer?.properties[0]?.description);
-      setPropertyValue(customer?.properties[0]?.propertyValue);
-      setImage(customer?.properties[0]?.image);
+      if (!customer.name || customer._id !== customerId) {
+        dispatch(listCustomerDetails(customerId));
+      } else {
+        setAddress(customer?.properties[0]?.location.address);
+        setCity(customer?.properties[0]?.location.city);
+        setState(customer?.properties[0]?.location.state);
+        setPostalCode(customer?.properties[0]?.location.postalCode);
+        setCountry(customer?.properties[0]?.location.country);
+        setDescription(customer?.properties[0]?.description);
+        setPropertyValue(customer?.properties[0]?.propertyValue);
+        setImage(customer?.properties[0]?.image);
+      }
     }
-  }, [dispatch, customer, customerId]);
+  }, [dispatch, history, customer, customerId, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(
+      updateProperty(customerId, {
+        location: {
+          address,
+          city,
+          state,
+          postalCode,
+          country,
+        },
+        description,
+        propertyValue,
+        image,
+        user: user._id,
+        customer: customerId,
+      })
+    );
   };
 
   return (
@@ -137,7 +175,8 @@ const PropertyEditScreen = ({ match }) => {
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
+            {loadingUpdate && <Loader />}
+            {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
             <Button type="submit" variant="primary">
               Update
             </Button>
