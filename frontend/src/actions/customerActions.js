@@ -21,6 +21,7 @@ import {
   CUSTOMER_UPDATE_PROPERTY_SUCCESS,
   CUSTOMER_UPDATE_REQUEST,
   CUSTOMER_UPDATE_SUCCESS,
+  CUSTOMER_SAVE_PAYMENT_METHOD,
 } from "../constants/customerConstants";
 import { logout } from "./userActions";
 
@@ -244,4 +245,12 @@ export const updateProperty = (customerId, property) => async (
       payload: message,
     });
   }
+};
+
+export const savePaymentMethod = (data) => (dispatch) => {
+  dispatch({
+    type: CUSTOMER_SAVE_PAYMENT_METHOD,
+    payload: data,
+  });
+  localStorage.setItem("paymentMethod", JSON.stringify(data));
 };

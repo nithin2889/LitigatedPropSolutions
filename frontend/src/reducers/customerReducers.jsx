@@ -21,6 +21,7 @@ import {
   CUSTOMER_CREATE_PROPERTY_FAIL,
   CUSTOMER_CREATE_PROPERTY_SUCCESS,
   CUSTOMER_CREATE_PROPERTY_REQUEST,
+  CUSTOMER_SAVE_PAYMENT_METHOD,
   CUSTOMER_UPDATE_PROPERTY_REQUEST,
   CUSTOMER_UPDATE_PROPERTY_SUCCESS,
   CUSTOMER_UPDATE_PROPERTY_FAIL,
@@ -53,6 +54,11 @@ export const customerDetailsReducer = (
       return { loading: false, error: action.payload };
     case CUSTOMER_DETAILS_RESET:
       return {};
+    case CUSTOMER_SAVE_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: action.payload,
+      };
     default:
       return state;
   }

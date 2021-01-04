@@ -60,19 +60,13 @@ const CustomerScreen = ({ match }) => {
                   <ListGroup.Item>
                     {customer?.properties?.length === 0 ? (
                       <>
-                        <Row className="align-items-center">
-                          <h2>No Properties Registered</h2>
-                          <Col className="text-right">
-                            <LinkContainer
-                              to={`/admin/property/${match.params.id}`}
-                            >
-                              <Button className="my-3">
-                                <i className="fas fa-plus"></i> Register
-                                Property
-                              </Button>
-                            </LinkContainer>
-                          </Col>
-                        </Row>
+                        <LinkContainer
+                          to={`/admin/property/${match.params.id}`}
+                        >
+                          <Button className="btn-block" type="button">
+                            <i className="fas fa-plus"></i> Register Property
+                          </Button>
+                        </LinkContainer>
                       </>
                     ) : (
                       <h2>
