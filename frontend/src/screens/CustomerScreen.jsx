@@ -14,6 +14,9 @@ const CustomerScreen = ({ match }) => {
   const customerDetails = useSelector((state) => state.customerDetails);
   const { loading, error, customer } = customerDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     dispatch(listCustomerDetails(match.params.id));
   }, [dispatch, match]);
@@ -106,6 +109,17 @@ const CustomerScreen = ({ match }) => {
                           </Col>
                         </Row>
                       </ListGroup.Item>
+                      {userInfo && userInfo.isAdmin && (
+                        <>
+                          <LinkContainer
+                            to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
+                          >
+                            <Button className="btn-block" type="button">
+                              <i className="fas fa-edit"></i> Edit Property
+                            </Button>
+                          </LinkContainer>
+                        </>
+                      )}
                     </>
                   ))}
                 </ListGroup>

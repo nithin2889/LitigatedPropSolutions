@@ -13,6 +13,7 @@ import CustomerListScreen from "./screens/CustomerListScreen";
 import CustomerEditScreen from "./screens/CustomerEditScreen";
 import PropertyScreen from "./screens/PropertyScreen";
 import CustomerScreen from "./screens/CustomerScreen";
+import PropertyEditScreen from "./screens/PropertyEditScreen";
 
 const App = () => {
   return (
@@ -33,6 +34,10 @@ const App = () => {
             component={CustomerEditScreen}
           />
           <Route path="/admin/property/:id" component={PropertyScreen} exact />
+          <Route
+            path="/admin/customer/:custId/property/:propId/edit"
+            component={PropertyEditScreen}
+          />
         </Container>
       </main>
       <Footer />
