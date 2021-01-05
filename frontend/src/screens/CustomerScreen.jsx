@@ -17,6 +17,9 @@ const CustomerScreen = ({ match }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const paymentCreate = useSelector((state) => state.paymentCreate);
+  const { payment } = paymentCreate;
+
   useEffect(() => {
     dispatch(listCustomerDetails(match.params.id));
   }, [dispatch, match]);
@@ -42,9 +45,9 @@ const CustomerScreen = ({ match }) => {
                 <ListGroup.Item>Mobile: {customer?.mobile}</ListGroup.Item>
                 <ListGroup.Item>
                   Address: {customer?.customerAddress?.address},{" "}
-                  {customer?.customerAddress?.city},{" "}
-                  {customer?.customerAddress?.state} -{" "}
-                  {customer?.customerAddress?.postalCode}{" "}
+                  {customer?.customerAddress?.city} -{" "}
+                  {customer?.customerAddress?.postalCode},{" "}
+                  {customer?.customerAddress?.state},{" "}
                   {customer?.customerAddress?.country}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -82,9 +85,9 @@ const CustomerScreen = ({ match }) => {
                           <Col>
                             <strong>
                               {property?.location?.address},{" "}
-                              {property?.location?.city},{" "}
-                              {property?.location?.state},{" "}
+                              {property?.location?.city} -{" "}
                               {property?.location?.postalCode},{" "}
+                              {property?.location?.state},{" "}
                               {property?.location?.country}
                             </strong>
                           </Col>
@@ -106,12 +109,22 @@ const CustomerScreen = ({ match }) => {
                       {userInfo && userInfo.isAdmin && (
                         <>
                           <LinkContainer
-                            to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
+                            to={`/payment/customer/${customer._id}`}
                           >
-                            <Button className="btn-block" type="button">
-                              <i className="fas fa-edit"></i> Edit Property
+                            <Button className="my-3">
+                              <i className="far fa-credit-card"></i> Pay to edit
+                              property
                             </Button>
                           </LinkContainer>
+                          {payment && payment.isPaid && (
+                            <LinkContainer
+                              to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
+                            >
+                              <Button className="btn-block" type="button">
+                                <i className="fas fa-edit"></i> Edit Property
+                              </Button>
+                            </LinkContainer>
+                          )}
                         </>
                       )}
                     </>

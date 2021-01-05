@@ -5,6 +5,7 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 // configuring to read environment variables from .env file
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/customers", customerRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
