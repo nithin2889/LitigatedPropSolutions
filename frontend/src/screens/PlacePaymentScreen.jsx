@@ -4,22 +4,26 @@ import { Button, Row, Col, ListGroup, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import { createPayment } from "../actions/paymentActions";
+import { listCustomerDetails } from "../actions/customerActions";
 
-const PlaceOrderScreen = ({ match, history }) => {
+const PlacePaymentScreen = ({ match, history }) => {
   const dispatch = useDispatch();
   const customerDetails = useSelector((state) => state.customerDetails);
-  const { customer, paymentMethod } = customerDetails;
+  const { customer } = customerDetails;
 
-  // Function to maintain 2 decimals at any given time.
+  // fetching payment method from localstorage.
+  const paymentMethod = JSON.parse(localStorage.getItem("paymentMethod"));
+
+  // function to maintain 2 decimals at any given time.
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
 
-  // Calculating 2% on the property value.
+  // Calculating a fee of 2% of the property value.
   const totalPrice = addDecimals(
-    Number(0.02 * customerDetails.customer.properties[0].propertyValue).toFixed(
-      2
-    )
+    Number(
+      0.02 * customerDetails?.customer?.properties[0]?.propertyValue
+    ).toFixed(2)
   );
 
   const paymentCreate = useSelector((state) => state.paymentCreate);
@@ -27,10 +31,12 @@ const PlaceOrderScreen = ({ match, history }) => {
 
   useEffect(() => {
     if (success) {
-      history.push(`/payment/${payment._id}`);
+      history.push(`/payment/${payment._id}/customer/${match.params.id}`);
     }
     // eslint-disable-next-line
-  }, [history, payment, success]);
+    // fetching customer details by customer id to avoid error on page refresh
+    dispatch(listCustomerDetails(match.params.id));
+  }, [dispatch, history, payment, success, match]);
 
   const paymentHandler = () => {
     dispatch(
@@ -58,11 +64,11 @@ const PlaceOrderScreen = ({ match, history }) => {
             <ListGroup.Item>
               <p>
                 <strong>Property Under Dispute:</strong>
-                {customer?.properties[0].location?.address},{" "}
-                {customer?.properties[0].location?.city} -{" "}
-                {customer?.properties[0].location?.postalCode},{" "}
-                {customer?.properties[0].location?.state},{" "}
-                {customer?.properties[0].location?.country}
+                {customer?.properties[0]?.location?.address},{" "}
+                {customer?.properties[0]?.location?.city} -{" "}
+                {customer?.properties[0]?.location?.postalCode},{" "}
+                {customer?.properties[0]?.location?.state},{" "}
+                {customer?.properties[0]?.location?.country}
               </p>
             </ListGroup.Item>
 
@@ -91,7 +97,7 @@ const PlaceOrderScreen = ({ match, history }) => {
                 <Button
                   type="button"
                   className="btn-block"
-                  disabled={customerDetails.customer.properties.length === 0}
+                  disabled={customerDetails?.customer?.properties?.length === 0}
                   onClick={paymentHandler}
                 >
                   Pay
@@ -105,4 +111,4 @@ const PlaceOrderScreen = ({ match, history }) => {
   );
 };
 
-export default PlaceOrderScreen;
+export default PlacePaymentScreen;
