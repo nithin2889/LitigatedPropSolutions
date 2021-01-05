@@ -33,6 +33,11 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/payment", paymentRoutes);
 
+// Hit this route and fetch the client id
+app.get("/api/config/paypal", (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
+
 app.use(notFound);
 app.use(errorHandler);
 

@@ -22,6 +22,7 @@ import {
 import {
   paymentCreateReducer,
   paymentDetailsReducer,
+  paymentPayReducer,
 } from "./reducers/paymentReducers";
 
 // holds all the reducers of the application
@@ -35,6 +36,7 @@ const reducer = combineReducers({
   customerUpdateProperty: customerUpdatePropertyReducer,
   paymentCreate: paymentCreateReducer,
   paymentDetails: paymentDetailsReducer,
+  paymentPay: paymentPayReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,

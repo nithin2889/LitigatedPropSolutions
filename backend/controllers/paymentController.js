@@ -42,4 +42,28 @@ const getPaymentById = asyncHandler(async (req, res) => {
   }
 });
 
-export { addPayment, getPaymentById };
+// @desc    Update payment to paid
+// @route   PUT /api/payments/:id/pay
+// @access  Private/Admin
+const updatePaymentToPaid = asyncHandler(async (req, res) => {
+  const payment = await Payment.findById(req.params.id);
+
+  if (payment) {
+    payment.isPaid = true;
+    payment.paidAt = Date.now();
+    payment.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
+
+    const updatedPayment = await payment.save();
+    res.json(updatedPayment);
+  } else {
+    res.status(404);
+    throw new Error("Payment not found");
+  }
+});
+
+export { addPayment, getPaymentById, updatePaymentToPaid };

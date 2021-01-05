@@ -6,6 +6,9 @@ import {
   PAYMENT_DETAILS_REQUEST,
   PAYMENT_DETAILS_SUCCESS,
   PAYMENT_DETAILS_FAIL,
+  PAYMENT_PAY_REQUEST,
+  PAYMENT_PAY_SUCCESS,
+  PAYMENT_PAY_FAIL,
 } from "../constants/paymentConstants";
 
 export const createPayment = (customerId, payment) => async (
@@ -65,6 +68,41 @@ export const getPaymentDetails = (id, custId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PAYMENT_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const payOrder = (paymentId, paymentResult) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: PAYMENT_PAY_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/payment/${paymentId}/pay`,
+      paymentResult,
+      config
+    );
+
+    dispatch({ type: PAYMENT_PAY_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PAYMENT_PAY_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

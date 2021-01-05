@@ -17,8 +17,8 @@ const CustomerScreen = ({ match }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const paymentCreate = useSelector((state) => state.paymentCreate);
-  const { payment } = paymentCreate;
+  const paymentDetails = useSelector((state) => state.paymentDetails);
+  const { payment } = paymentDetails;
 
   useEffect(() => {
     dispatch(listCustomerDetails(match.params.id));
@@ -108,23 +108,24 @@ const CustomerScreen = ({ match }) => {
                       </ListGroup.Item>
                       {userInfo && userInfo.isAdmin && (
                         <>
-                          <LinkContainer
-                            to={`/payment/customer/${customer._id}`}
-                          >
-                            <Button className="my-3">
-                              <i className="far fa-credit-card"></i> Pay to edit
-                              property
-                            </Button>
-                          </LinkContainer>
-                          {payment && payment.isPaid && (
+                          {!payment && !payment?.isPaid && (
                             <LinkContainer
-                              to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
+                              to={`/payment/customer/${customer._id}`}
                             >
-                              <Button className="btn-block" type="button">
-                                <i className="fas fa-edit"></i> Edit Property
+                              <Button className="my-3">
+                                <i className="far fa-credit-card"></i> Pay to
+                                edit property
                               </Button>
                             </LinkContainer>
                           )}
+
+                          <LinkContainer
+                            to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
+                          >
+                            <Button className="btn-block" type="button">
+                              <i className="fas fa-edit"></i> Edit Property
+                            </Button>
+                          </LinkContainer>
                         </>
                       )}
                     </>
