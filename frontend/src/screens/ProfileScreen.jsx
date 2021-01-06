@@ -129,9 +129,9 @@ const ProfileScreen = ({ location, history }) => {
           <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
+                <th>CUSTOMER</th>
+                <th>CREATED ON</th>
+                <th>PRICE</th>
                 <th>PAYMENT METHOD</th>
                 <th>PAID ON</th>
                 <th></th>
@@ -140,9 +140,9 @@ const ProfileScreen = ({ location, history }) => {
             <tbody>
               {registrations.map((registration) => (
                 <tr key={registration._id}>
-                  <td>{registration._id}</td>
+                  <td>{registration.customer.name}</td>
                   <td>{moment(registration.createdAt).format("YYYY-MM-DD")}</td>
-                  <td>{registration.totalPrice}</td>
+                  <td>&#8377; {registration.totalPrice} /-</td>
                   <td>{registration.paymentMethod}</td>
                   <td>
                     {registration.isPaid ? (

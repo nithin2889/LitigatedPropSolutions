@@ -70,7 +70,10 @@ const updatePaymentToPaid = asyncHandler(async (req, res) => {
 // @route   GET /api/payment/myregistrations
 // @access  Private
 const getMyRegistrations = asyncHandler(async (req, res) => {
-  const payments = await Payment.find({ user: req.user._id });
+  const payments = await Payment.find({ user: req.user._id }).populate(
+    "customer",
+    "name"
+  );
   res.json(payments);
 });
 
