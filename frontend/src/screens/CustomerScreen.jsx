@@ -106,27 +106,24 @@ const CustomerScreen = ({ match }) => {
                           </Col>
                         </Row>
                       </ListGroup.Item>
-                      {userInfo && userInfo.isAdmin && (
-                        <>
-                          {!payment && !payment?.isPaid && (
-                            <LinkContainer
-                              to={`/payment/customer/${customer._id}`}
-                            >
-                              <Button className="my-3">
-                                <i className="far fa-credit-card"></i> Pay to
-                                edit property
-                              </Button>
-                            </LinkContainer>
-                          )}
-
-                          <LinkContainer
-                            to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
-                          >
-                            <Button className="btn-block" type="button">
-                              <i className="fas fa-edit"></i> Edit Property
-                            </Button>
-                          </LinkContainer>
-                        </>
+                      {userInfo &&
+                      userInfo.isAdmin &&
+                      !payment &&
+                      !payment?.isPaid ? (
+                        <LinkContainer to={`/payment/customer/${customer._id}`}>
+                          <Button className="my-3">
+                            <i className="far fa-credit-card"></i> Pay to edit
+                            property
+                          </Button>
+                        </LinkContainer>
+                      ) : (
+                        <LinkContainer
+                          to={`/admin/customer/${match.params.id}/property/${customer?.properties[0]?._id}/edit/`}
+                        >
+                          <Button className="btn-block" type="button">
+                            <i className="fas fa-edit"></i> Edit Property
+                          </Button>
+                        </LinkContainer>
                       )}
                     </>
                   ))}

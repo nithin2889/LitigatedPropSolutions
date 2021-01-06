@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col, Table } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import moment from "moment";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { listMyRegistrations } from "../actions/paymentActions";
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -24,6 +27,13 @@ const ProfileScreen = ({ location, history }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
+  const paymentMyList = useSelector((state) => state.paymentMyList);
+  const {
+    loading: loadingRegistrations,
+    error: errorRegistrations,
+    registrations,
+  } = paymentMyList;
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
@@ -31,6 +41,7 @@ const ProfileScreen = ({ location, history }) => {
       if (!user || !user.name) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
+        dispatch(listMyRegistrations());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -109,19 +120,51 @@ const ProfileScreen = ({ location, history }) => {
         </Form>
       </Col>
       <Col md={9}>
-        <h2>Registrations</h2>
-        <Table striped bordered hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </Table>
+        <h2>My Registrations</h2>
+        {loadingRegistrations ? (
+          <Loader />
+        ) : errorRegistrations ? (
+          <Message variant="danger">{errorRegistrations}</Message>
+        ) : (
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAYMENT METHOD</th>
+                <th>PAID ON</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {registrations.map((registration) => (
+                <tr key={registration._id}>
+                  <td>{registration._id}</td>
+                  <td>{moment(registration.createdAt).format("YYYY-MM-DD")}</td>
+                  <td>{registration.totalPrice}</td>
+                  <td>{registration.paymentMethod}</td>
+                  <td>
+                    {registration.isPaid ? (
+                      moment(registration.paidAt).format("YYYY-MM-DD")
+                    ) : (
+                      <i className="fas fa-times" style={{ color: "red" }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer
+                      to={`/payment/${registration._id}/customer/${registration.customer}`}
+                    >
+                      <Button className="btn-sm" variant="light">
+                        Details
+                      </Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   );

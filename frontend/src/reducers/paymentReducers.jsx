@@ -9,6 +9,10 @@ import {
   PAYMENT_PAY_SUCCESS,
   PAYMENT_PAY_FAIL,
   PAYMENT_PAY_RESET,
+  PAYMENT_LIST_MY_FAIL,
+  PAYMENT_LIST_MY_SUCCESS,
+  PAYMENT_LIST_MY_REQUEST,
+  PAYMENT_LIST_MY_RESET,
 } from "../constants/paymentConstants";
 
 export const paymentCreateReducer = (state = {}, action) => {
@@ -51,6 +55,21 @@ export const paymentPayReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case PAYMENT_PAY_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const paymentMyListReducer = (state = { registrations: [] }, action) => {
+  switch (action.type) {
+    case PAYMENT_LIST_MY_REQUEST:
+      return { loading: true };
+    case PAYMENT_LIST_MY_SUCCESS:
+      return { loading: false, registrations: action.payload };
+    case PAYMENT_LIST_MY_FAIL:
+      return { loading: false, error: action.payload };
+    case PAYMENT_LIST_MY_RESET:
+      return { registrations: [] };
     default:
       return state;
   }

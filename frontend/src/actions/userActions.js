@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PAYMENT_LIST_MY_RESET } from "../constants/paymentConstants";
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
@@ -59,6 +60,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_LIST_RESET });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: PAYMENT_LIST_MY_RESET });
   document.location.href = "/login";
 };
 

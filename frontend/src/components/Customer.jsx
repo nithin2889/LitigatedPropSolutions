@@ -15,7 +15,7 @@ const Customer = ({ customer }) => {
             <span>{customer.mobile}</span>
           </Card.Text>
           <Card.Text as="div">
-            <span>{customer.numProperties} properties under dispute</span>
+            <span>Properties registered: {customer.numProperties}</span>
           </Card.Text>
         </Card.Body>
       </Card>

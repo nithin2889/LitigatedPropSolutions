@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import Payment from "../models/paymentModel.js";
 
 // @desc    Create payment
-// @route   POST /api/payments/customer/:id
+// @route   POST /api/payment/customer/:id
 // @access  Private/Admin
 const addPayment = asyncHandler(async (req, res) => {
   const { paymentMethod, totalPrice } = req.body;
@@ -24,7 +24,7 @@ const addPayment = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get payment by ID
-// @route   GET /api/payments/:id
+// @route   GET /api/payment/:id
 // @access  Private/Admin
 const getPaymentById = asyncHandler(async (req, res) => {
   const payment = await Payment.findById(req.params.id)
@@ -43,7 +43,7 @@ const getPaymentById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update payment to paid
-// @route   PUT /api/payments/:id/pay
+// @route   PUT /api/payment/:id/pay
 // @access  Private/Admin
 const updatePaymentToPaid = asyncHandler(async (req, res) => {
   const payment = await Payment.findById(req.params.id);
@@ -66,4 +66,12 @@ const updatePaymentToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-export { addPayment, getPaymentById, updatePaymentToPaid };
+// @desc    Get logged in user registrations
+// @route   GET /api/payment/myregistrations
+// @access  Private
+const getMyRegistrations = asyncHandler(async (req, res) => {
+  const payments = await Payment.find({ user: req.user._id });
+  res.json(payments);
+});
+
+export { addPayment, getPaymentById, updatePaymentToPaid, getMyRegistrations };
