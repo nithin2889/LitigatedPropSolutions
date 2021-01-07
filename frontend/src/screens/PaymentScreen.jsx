@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import { savePaymentMethod } from "../actions/customerActions";
 
@@ -9,6 +9,13 @@ const PaymentScreen = ({ history, match }) => {
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo && !userInfo?.isAdmin) {
+    history.push("/login");
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();

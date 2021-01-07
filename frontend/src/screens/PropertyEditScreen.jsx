@@ -28,6 +28,9 @@ const PropertyEditScreen = ({ history, match }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { user } = userDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const customerDetails = useSelector((state) => state.customerDetails);
   const { loading, error, customer } = customerDetails;
 
@@ -39,6 +42,10 @@ const PropertyEditScreen = ({ history, match }) => {
     error: errorUpdate,
     success: successUpdate,
   } = customerUpdateProperty;
+
+  if (!userInfo && !userInfo?.isAdmin) {
+    history.push("/login");
+  }
 
   useEffect(() => {
     if (successUpdate) {

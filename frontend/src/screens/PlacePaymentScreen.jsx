@@ -11,6 +11,13 @@ const PlacePaymentScreen = ({ match, history }) => {
   const customerDetails = useSelector((state) => state.customerDetails);
   const { customer } = customerDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo && !userInfo?.isAdmin) {
+    history.push("/login");
+  }
+
   // fetching payment method from localstorage.
   const paymentMethod = JSON.parse(localStorage.getItem("paymentMethod"));
 

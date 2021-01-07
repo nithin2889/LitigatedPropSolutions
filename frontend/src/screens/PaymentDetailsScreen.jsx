@@ -9,7 +9,7 @@ import { getPaymentDetails, payOrder } from "../actions/paymentActions";
 import axios from "axios";
 import { PAYMENT_PAY_RESET } from "../constants/paymentConstants";
 
-const PaymentDetailsScreen = ({ match }) => {
+const PaymentDetailsScreen = ({ match, history }) => {
   const paymentId = match.params.id;
   const customerId = match.params.custId;
 
@@ -25,6 +25,10 @@ const PaymentDetailsScreen = ({ match }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  if (!userInfo && !userInfo?.isAdmin) {
+    history.push("/login");
+  }
 
   useEffect(() => {
     const addPayPalScript = async () => {

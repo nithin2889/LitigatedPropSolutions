@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
 import { listCustomerDetails } from "../actions/customerActions";
 
-const CustomerScreen = ({ match }) => {
+const CustomerScreen = ({ match, history }) => {
   const dispatch = useDispatch();
 
   const customerDetails = useSelector((state) => state.customerDetails);
@@ -16,6 +16,10 @@ const CustomerScreen = ({ match }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  if (!userInfo) {
+    history.push("/login");
+  }
 
   useEffect(() => {
     dispatch(listCustomerDetails(match.params.id));
